@@ -1,9 +1,8 @@
 #include <iostream>
 
-#pragma once
-
 using namespace std;
 
+#pragma once
 
 class Variable
 {
@@ -17,5 +16,6 @@ public:
 	void setValue(string val);
 	Variable(void);
 	~Variable(void);
+	bool operator==(const Variable &other) const;
 };
 

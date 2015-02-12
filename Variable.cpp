@@ -18,3 +18,7 @@ string Variable::getName() {
 	return name;
 }
 
+bool Variable::operator==(const Variable &other) const {
+	return !(*this == other);
+}
+

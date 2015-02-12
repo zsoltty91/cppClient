@@ -20,5 +20,6 @@ public:
 	list<Variable> getVariables();
 	Request(void);
 	~Request(void);
+	bool operator==(const Request &other) const;
 };
 

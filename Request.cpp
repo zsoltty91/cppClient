@@ -1,6 +1,5 @@
 #include "Request.h"
 
-
 Request::Request(void)
 {
 }
@@ -28,4 +27,8 @@ void Request::removeFirstVariable() {
 
 list<Variable> Request::getVariables() {
 	return values;
+}
+
+bool Request::operator==(const Request &other) const {
+	return !(*this==other);
 }
