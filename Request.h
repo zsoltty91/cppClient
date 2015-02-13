@@ -10,7 +10,9 @@ using namespace std;
 class Request
 {
 private:
-	list<Variable> values; 
+	list<Variable> values;
+	string name;
+	string type;
 
 public:
 	void addVariable(Variable variable);
@@ -18,6 +20,10 @@ public:
 	Variable getFirstVariable();
 	void removeFirstVariable();
 	list<Variable> getVariables();
+	void setName(string nam);
+	string getName();
+	void setType(string typ);
+	string getType();
 	Request(void);
 	~Request(void);
 	bool operator==(const Request &other) const;
