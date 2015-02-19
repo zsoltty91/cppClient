@@ -1,5 +1,8 @@
 #include "Javaserver.h"
 
+#include <sstream>
+#include <string>
+
 //******* JAVA SERVER
 #ifndef INET_ADDRSTRLEN
 #define INET_ADDRSTRLEN 16
@@ -122,6 +125,20 @@ void Javaserver::sendMessage(string message) throw(int) {
 	if (trnmsize < 0) {
 		throw CANNOT_SEND_CODE;
 	}
+}
+
+void Javaserver::sendInt(int number) throw(int) {
+	ostringstream os;
+	os << number;
+	string str = os.str();
+	sendMessage(str);
+}
+
+void Javaserver::sendDouble(double number) throw(int) {
+	ostringstream os;
+	os << number;
+	string str = os.str();
+	sendMessage(str);
 }
 
 Javaserver::~Javaserver(void)

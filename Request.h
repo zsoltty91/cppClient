@@ -15,6 +15,7 @@ private:
 	string type;
 
 public:
+	bool isEmptyVariables();
 	void addVariable(Variable variable);
 	void removeVariable(Variable variable);
 	Variable getFirstVariable();

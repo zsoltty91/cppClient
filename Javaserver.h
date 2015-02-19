@@ -32,6 +32,8 @@ public:
 	static string getErrorMessage(int exception);
 	string readMessage() throw(int);
 	void sendMessage(string message) throw(int);
+	void sendInt(int number) throw(int);
+	void sendDouble(double number) throw(int);
 	Javaserver(void) throw(int);
 	Javaserver(int port) throw(int);
 	~Javaserver(void);

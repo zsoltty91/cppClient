@@ -1,5 +1,9 @@
 #include "Request.h"
 
+#include <iostream>
+
+using namespace std;
+
 Request::Request(void)
 {
 }
@@ -44,9 +48,13 @@ void Request::setType(string typ)
 	type=typ;
 }
 	
-string getType();
+string Request::getType()
 {
 	return type;
+}
+
+bool Request::isEmptyVariables() {
+	return values.empty();
 }
 
 bool Request::operator==(const Request &other) const {
