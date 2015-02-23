@@ -34,9 +34,9 @@ using namespace std;
 */
 
 // This is the Server we want to connect to...
-#define SERVER_IP   "192.168.1.101"  //this is mine local IP's get by means of GetLocalIPs(...) function,
+#define SERVER_IP   "192.168.1.100"  //this is mine local IP's get by means of GetLocalIPs(...) function,
                                    // do not use so called loopback  "127.0.0.1" address !!! 
-#define PORT         7000
+#define PORT         7001
 
 class MetaClient
 {

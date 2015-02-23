@@ -18,6 +18,14 @@ string Variable::getName() {
 	return name;
 }
 
+void Variable::setName(string val) {
+	name=val;
+}
+
+void Variable::setValue(string val) {
+	value=val;
+}
+
 bool Variable::operator==(const Variable &other) const {
 	return !(*this == other);
 }

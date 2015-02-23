@@ -43,6 +43,7 @@ void MetaClient::init(string host, int port) throw(int)
 		throw u32_Error;
 	}
 	h_Client = ph_Client[0];
+	cout<<"Connected to metatrader.";
 }
 
 void MetaClient::sendCharArray(char *tomb) throw(int)
@@ -54,6 +55,7 @@ void MetaClient::sendCharArray(char *tomb) throw(int)
 		if(u32_Err) {
 			throw u32_Err;
 		}
+		Sleep(200);
 	}
 	intBuf[0]='\0';
 	u32_Err = cNetEventsProcDLL::SendToInt(h_Client,intBuf ,sendLen[0]);
@@ -69,12 +71,17 @@ void MetaClient::sendString(string message) throw(int)
 		intBuf[0]=message[i];
 		u32_Err = cNetEventsProcDLL::SendToInt(h_Client,intBuf ,sendLen[0]);
 		if(u32_Err) {
+			getErrorMessage(u32_Err);
 			throw u32_Err;
 		}
+		printf("sent %c\n",intBuf[0]);
+		Sleep(200);
 	}
 	intBuf[0]='\0';
 	u32_Err = cNetEventsProcDLL::SendToInt(h_Client,intBuf ,sendLen[0]);
+	printf("sent %c\n",intBuf[0]);
 	if(u32_Err) {
+		getErrorMessage(u32_Err);
 		throw u32_Err;
 	}
 }
@@ -107,9 +114,11 @@ string MetaClient::readString() throw(int)
 				throw u32_Err;
 			}
 		}
+		printf("read: %c\n",intBuf[0]);
 		readData[i++]=intBuf[0];
 		if(intBuf[0]=='\0') {
-			return readData;
+			string read(readData);
+			return read;
 		}
 	}
 }
@@ -143,19 +152,24 @@ string MetaClient::getErrorMessage(int exception)
 	switch (exception)
 		{
 		case 0:
+			cout<<"Operation(...) OK";
 			return "Operation(...) OK";
 			break;
 		case ERROR_INVALID_PARAMETER:
+			cout<<"ERROR_INVALID_PARAMETER -> One of this parms or more: h_Client, ps8_SendData, u32_SendDataLen is invalid...";
 			return "ERROR_INVALID_PARAMETER -> One of this parms or more: h_Client, ps8_SendData, u32_SendDataLen is invalid...";
 			break;
 		case WSAEWOULDBLOCK:
+			cout<<"WSAEWOULDBLOCK -> The data will be send after the next FD_WRITE event, do nothing.";
 			return "WSAEWOULDBLOCK -> The data will be send after the next FD_WRITE event, do nothing.";
 			break;
 
 		case WSA_IO_PENDING:
+			cout<<"WSA_IO_PENDING -> Error: A previous Send operation is still pending. This data will not be sent, try latter.";
 			return "WSA_IO_PENDING -> Error: A previous Send operation is still pending. This data will not be sent, try latter.";
 			break;
 		default:
+			cout<<"Failed with severe error.";
 			return "Failed with severe error.";
 			break;
 		};
