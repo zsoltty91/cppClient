@@ -38,7 +38,7 @@ int main()
 			cout<<Javaserver::getErrorMessage(e);
 			break;
 		}
-		break;
+
 	}
 
 	Sleep(2000);

@@ -71,10 +71,14 @@ void Manager::receiveClientRequests()
 				}
 				request.addVariable(var);
 			}
+
 			cout<<"\n type:"+request.getType()+"\n";
-			cout<<"name: "+request.getName();
-			cout<<"\nvariable name: "+request.getFirstVariable().getName();
-			cout<<"\n variable value: "+request.getFirstVariable().getValue();
+			if(request.getType().compare("AVAILABLE")!=0) {
+				cout<<"name: "+request.getName();
+				cout<<"\nvariable name: "+request.getFirstVariable().getName();
+				cout<<"\n variable value: "+request.getFirstVariable().getValue();
+			}
+
 			requestHandler.addRequestToSendServer(request);
 		} catch(int e) {
 			throw e;
@@ -98,6 +102,7 @@ void Manager::sendClientRequests() throw(int) {
 		variables = request.getVariables();
 		for (list<Variable>::iterator it = variables.begin(); it != variables.end(); it++){
 			jServer.sendMessage(it->getName());
+			//nem küldjük ki a seteseket
 			if(request.getType().compare("SET")!=0) {
 				jServer.sendMessage(it->getValue());
 			}
@@ -117,16 +122,18 @@ void Manager::sendServerRequests() throw(int) {
 		request = requestHandler.getFirstRequestToSendServer();
 		metaClient.sendString(request.getType());
 		cout<<"sent type";
-		metaClient.sendString(request.getName());
-		cout<<"sent name";
-		variables = request.getVariables();
-		for (list<Variable>::iterator it = variables.begin(); it != variables.end(); it++){
-			cout<<"send variable ciklus\n";
-			metaClient.sendString(it->getName());
-			cout<<"sent variable"+it->getName();
-			if(request.getType().compare("SET")==0) {
-				metaClient.sendString(it->getValue());
-				cout<<"sent value";
+		if(request.getType().compare("AVAILABLE")!=0) {
+			metaClient.sendString(request.getName());
+			cout<<"sent name";
+			variables = request.getVariables();
+			for (list<Variable>::iterator it = variables.begin(); it != variables.end(); it++){
+				cout<<"send variable ciklus\n";
+				metaClient.sendString(it->getName());
+				cout<<"sent variable"+it->getName();
+				if(request.getType().compare("SET")==0) {
+					metaClient.sendString(it->getValue());
+					cout<<"sent value";
+				}
 			}
 		}
 		metaClient.sendString("END");
@@ -153,6 +160,7 @@ void Manager::receiveServerRequests() throw(int) {
 			cout<<"There was more request to get.";
 			break;
 		}
+
 		if(processRequest.getType().compare("AVAILABLE")==0) {
 			while(true) {
 				if(read.compare("AVAILABLE_FINE")==0) {
@@ -178,7 +186,7 @@ void Manager::receiveServerRequests() throw(int) {
 			requestHandler.addRequestToSendClient(processRequest);
 		} else {
 			if(read.compare(processRequest.getType())!=0){
-				cout<<"kilep";
+				cout<<"Request type mismatch(receiveServerRequests).";
 				throw 10;
 			}
 		
