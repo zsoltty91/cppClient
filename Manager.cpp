@@ -168,22 +168,26 @@ void Manager::receiveServerRequests() throw(int) {
 				}
 				request = Request();
 				request.setType(read);
+				cout<<"típus: "+read;
 				read = metaClient.readString();
 				request.setName(read);
+				cout<<"name: "+read;
 				while(true) {
 					read = metaClient.readString();
+					cout<<"variable "+read;
 					if(read.compare("END")==0) {
 						break;
 					}
 					variable = Variable();
 					variable.setName(read);
 					read=metaClient.readString();
+					cout<<"value: "+read;
 					variable.setValue(read);
 					request.addVariable(variable);
 				}
 				requestHandler.addRequestToSendClient(request);
+				read =metaClient.readString();
 			}
-			requestHandler.addRequestToSendClient(processRequest);
 		} else {
 			if(read.compare(processRequest.getType())!=0){
 				cout<<"Request type mismatch(receiveServerRequests).";
@@ -215,9 +219,10 @@ void Manager::receiveServerRequests() throw(int) {
 				cout<<"value: "+read;
 				it->setValue(read);
 			}
+		}
 			requestHandler.removeFirstRequestToProcessServer();
 			requestHandler.addRequestToSendClient(processRequest);
-		}
+		
 	}
 }
 

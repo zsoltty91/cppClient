@@ -55,7 +55,7 @@ void MetaClient::sendCharArray(char *tomb) throw(int)
 		if(u32_Err) {
 			throw u32_Err;
 		}
-		Sleep(200);
+		Sleep(3);
 	}
 	intBuf[0]='\0';
 	u32_Err = cNetEventsProcDLL::SendToInt(h_Client,intBuf ,sendLen[0]);
@@ -74,12 +74,12 @@ void MetaClient::sendString(string message) throw(int)
 			getErrorMessage(u32_Err);
 			throw u32_Err;
 		}
-		printf("sent %c\n",intBuf[0]);
-		Sleep(200);
+		//printf("sent %c\n",intBuf[0]);
+		Sleep(3);
 	}
 	intBuf[0]='\0';
 	u32_Err = cNetEventsProcDLL::SendToInt(h_Client,intBuf ,sendLen[0]);
-	printf("sent %c\n",intBuf[0]);
+	//printf("sent %c\n",intBuf[0]);
 	if(u32_Err) {
 		getErrorMessage(u32_Err);
 		throw u32_Err;
@@ -114,7 +114,7 @@ string MetaClient::readString() throw(int)
 				throw u32_Err;
 			}
 		}
-		printf("read: %c\n",intBuf[0]);
+		//printf("read: %c\n",intBuf[0]);
 		readData[i++]=intBuf[0];
 		if(intBuf[0]=='\0') {
 			string read(readData);
